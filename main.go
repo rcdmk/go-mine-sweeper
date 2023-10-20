@@ -1,8 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"os"
+	"time"
 
 	"github.com/rcdmk/go-mine-sweeper/internal/game"
 )
@@ -15,38 +14,22 @@ func main() {
 
 	game := game.NewGame(cols, rows, mines, seed)
 
-	x, y := 0, 0
+	// winRounds := [][]int{
+	// 	{0, 0}, {0, 2}, {0, 3},
+	// 	{1, 0}, {1, 1}, {1, 2}, {1, 3}, {1, 7}, {1, 8}, {1, 9},
+	// 	{2, 0}, {2, 1}, {2, 3}, {2, 7}, {2, 9},
+	// 	{3, 1}, {3, 2}, {3, 3}, {3, 7}, {3, 8}, {3, 9},
+	// 	{4, 0}, {4, 1}, {4, 2}, {4, 3}, {4, 4}, {4, 5},
+	// 	{5, 0}, {5, 2}, {5, 3}, {5, 5},
+	// 	{6, 0}, {6, 1}, {6, 2}, {6, 3}, {6, 4}, {6, 5},
+	// 	{7, 1}, {7, 2}, {7, 3}, {7, 5},
+	// 	{8, 0}, {8, 1}, {8, 3}, {8, 5},
+	// 	{9, 0}, {9, 1}, {9, 2}, {9, 3}, {9, 4}, {9, 5},
+	// }
 
-	rounds := [][]int{
-		{0, 0}, {0, 2}, {0, 3},
-		{1, 0}, {1, 1}, {1, 2}, {1, 3}, {1, 7}, {1, 8}, {1, 9},
-		{2, 0}, {2, 1}, {2, 3}, {2, 7}, {2, 9},
-		{3, 1}, {3, 2}, {3, 3}, {3, 7}, {3, 8}, {3, 9},
-		{4, 0}, {4, 1}, {4, 2}, {4, 3}, {4, 4}, {4, 5},
-		{5, 0}, {5, 2}, {5, 3}, {5, 5},
-		{6, 0}, {6, 1}, {6, 2}, {6, 3}, {6, 4}, {6, 5},
-		{7, 1}, {7, 2}, {7, 3}, {7, 5},
-		{8, 0}, {8, 1}, {8, 3}, {8, 5},
-		{9, 0}, {9, 1}, {9, 2}, {9, 3}, {9, 4}, {9, 5},
+	for { // runs game loop infinitelly until interrupted with CTRL+C
+		game.Run()
+		game.Reset(cols, rows, mines, seed)
+		time.Sleep(3 * time.Second)
 	}
-
-	for i := 0; i < len(rounds) && !game.IsGameOver(); i++ {
-		round := rounds[i]
-		x, y = round[0], round[1]
-		game.Reveal(x, y)
-	}
-
-	exitCode := 0
-
-	if game.IsWin() {
-		fmt.Println("Win!")
-	} else {
-		fmt.Printf("\nGAME OVER! (mine at [%v, %v])\n", x, y)
-
-		exitCode = 1
-	}
-
-	game.Print()
-
-	os.Exit(exitCode)
 }
