@@ -69,7 +69,7 @@ func (game *Game) Run() {
 	for !game.IsGameOver() {
 		fmt.Print("\033[H\033[2J") // clear screen, moves top left
 
-		fmt.Println("  *  MINE SWEEPER *")
+		fmt.Println("    *  MINE SWEEPER  *")
 		game.Print()
 
 		if x == 0 {

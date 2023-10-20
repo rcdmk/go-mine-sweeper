@@ -3,6 +3,7 @@ package game
 import (
 	"fmt"
 	"math/rand"
+	"strconv"
 )
 
 // Field is the play field representing the mine field and offers operations to setup and interact with it
@@ -20,8 +21,20 @@ func (f Field) MineCount() int {
 
 // Print outputs the field visibility to STDOUT
 func (f Field) Print() {
-	for _, row := range f.cells {
-		fmt.Println(row)
+	fmt.Print("   ")
+	for i := 1; i <= f.cols; i++ {
+		fmt.Print(" ", i)
+	}
+	fmt.Println()
+
+	for i, row := range f.cells {
+		n := strconv.Itoa(i + 1)
+
+		if i < 9 {
+			n = " " + n
+		}
+
+		fmt.Println(n, row)
 	}
 }
 
