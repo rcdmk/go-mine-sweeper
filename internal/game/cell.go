@@ -22,6 +22,10 @@ func (c cell) String() string {
 		return "*"
 	}
 
+	if c.Value == 0 {
+		return " "
+	}
+
 	return strconv.Itoa(c.Value)
 }
 
