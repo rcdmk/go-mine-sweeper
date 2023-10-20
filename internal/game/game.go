@@ -60,6 +60,12 @@ func (g *Game) Reveal(x, y int) (gameOver bool) {
 	return g.isGameOver
 }
 
+func (game Game) printField() {
+	fmt.Print("\033[H\033[2J") // clear screen, moves top left
+	fmt.Println("    *  MINE SWEEPER  *")
+	game.Print()
+}
+
 func (game *Game) Run() {
 	scanner := bufio.NewScanner(os.Stdin)
 
@@ -67,10 +73,7 @@ func (game *Game) Run() {
 	var err error
 
 	for !game.IsGameOver() {
-		fmt.Print("\033[H\033[2J") // clear screen, moves top left
-
-		fmt.Println("    *  MINE SWEEPER  *")
-		game.Print()
+		game.printField()
 
 		if x == 0 {
 			fmt.Printf("\nEnter X coordinate [1 - %v]: ", game.field.cols)
@@ -121,10 +124,8 @@ func (game *Game) Run() {
 	if game.IsWin() {
 		fmt.Println("\nWin!")
 	} else {
-		fmt.Print("\033[H\033[2J") // clear screen, moves top left
+		game.printField()
 
-		fmt.Println("  *  MINE SWEEPER *")
-		game.Print()
 		fmt.Printf("\n\aGAME OVER!\nHit mine at (X %v, Y %v)\n", x, y)
 	}
 }
